@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新疆全息视界软件科技有限公司 - 全息未来 视界无限</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-void: #030308;
+            --bg-deep: #080812;
+            --bg-card: #0d0d1a;
+            --bg-card-hover: #12122a;
+            --text-primary: #ffffff;
+            --text-secondary: #8888aa;
+            --hologram-cyan: #00f0ff;
+            --hologram-blue: #0080ff;
+            --hologram-purple: #8000ff;
+            --hologram-pink: #ff00aa;
+            --glow-cyan: rgba(0, 240, 255, 0.4);
+            --glow-blue: rgba(0, 128, 255, 0.3);
+            --glow-purple: rgba(128, 0, 255, 0.3);
+            --border-holo: rgba(0, 240, 255, 0.2);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: var(--bg-void);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* 动态粒子背景 */
+        .particles {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--hologram-cyan);
+            border-radius: 50%;
+            animation: float 15s infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0.6; }
+            25% { transform: translateY(-100px) translateX(50px); opacity: 0.3; }
+            50% { transform: translateY(-50px) translateX(-30px); opacity: 0.8; }
+            75% { transform: translateY(-150px) translateX(20px); opacity: 0.2; }
+        }
+
+        /* 导航栏 */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 20px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(3, 3, 8, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-holo);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border: 2px solid var(--hologram-cyan);
+            animation: logoRotate 10s linear infinite;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        }
+
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            width: 35px;
+            height: 35px;
+            border: 2px solid var(--hologram-purple);
+            animation: logoRotate 8s linear infinite reverse;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        }
+
+        @keyframes logoRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .logo-icon span {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--hologram-cyan);
+            z-index: 1;
+        }
+
+        .logo-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            background: linear-gradient(90deg, var(--hologram-cyan), var(--hologram-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 50px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--hologram-cyan), var(--hologram-purple));
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--hologram-cyan);
+            text-shadow: 0 0 20px var(--glow-cyan);
+        }
+
+        .nav-links a:hover::before {
+            width: 100%;
+        }
+
+        .nav-cta {
+            padding: 12px 30px;
+            background: transparent;
+            color: var(--hologram-cyan);
+            border: 1px solid var(--hologram-cyan);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--glow-cyan), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav-cta:hover::before {
+            left: 100%;
+        }
+
+        .nav-cta:hover {
+            background: var(--hologram-cyan);
+            color: var(--bg-void);
+            box-shadow: 0 0 30px var(--glow-cyan);
+        }
+
+        /* Hero 区域 */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 120px 60px 80px;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse at 30% 50%, rgba(0, 240, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 50%, rgba(128, 0, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 100%, rgba(0, 128, 255, 0.1) 0%, transparent 40%),
+                var(--bg-void);
+        }
+
+        /* 全息网格 */
+        .holo-grid {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: perspective(500px) rotateX(60deg);
+            transform-origin: center bottom;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            from { background-position: 0 0; }
+            to { background-position: 0 50px; }
+        }
+
+        /* 全息圆环 */
+        .holo-rings {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .holo-ring {
+            position: absolute;
+            border: 1px solid;
+            border-radius: 50%;
+            opacity: 0.5;
+        }
+
+        .holo-ring-1 {
+            width: 400px;
+            height: 400px;
+            border-color: var(--hologram-cyan);
+            top: -200px;
+            left: -200px;
+            animation: ringPulse 4s ease-in-out infinite;
+        }
+
+        .holo-ring-2 {
+            width: 300px;
+            height: 300px;
+            border-color: var(--hologram-purple);
+            top: -150px;
+            left: -150px;
+            animation: ringPulse 4s ease-in-out infinite 0.5s;
+        }
+
+        .holo-ring-3 {
+            width: 200px;
+            height: 200px;
+            border-color: var(--hologram-blue);
+            top: -100px;
+            left: -100px;
+            animation: ringPulse 4s ease-in-out infinite 1s;
+        }
+
+        @keyframes ringPulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 25px;
+            border: 1px solid var(--hologram-cyan);
+            margin-bottom: 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            color: var(--hologram-cyan);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            animation: borderGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { box-shadow: 0 0 10px var(--glow-cyan), inset 0 0 10px transparent; }
+            50% { box-shadow: 0 0 30px var(--glow-cyan), inset 0 0 20px var(--glow-cyan); }
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 5rem;
+            font-weight: 800;
+            letter-spacing: 10px;
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
+
+        .hero-title .line1 {
+            display: block;
+            background: linear-gradient(90deg, var(--hologram-cyan), var(--hologram-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+        }
+
+        .hero-title .line2 {
+            display: block;
+            font-size: 2.5rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            letter-spacing: 20px;
+            margin-top: 20px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 50px;
+            line-height: 2;
+            letter-spacing: 2px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        .btn-primary {
+            padding: 18px 50px;
+            background: linear-gradient(135deg, var(--hologram-cyan), var(--hologram-blue));
+            color: var(--bg-void);
+            border: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 50px var(--glow-cyan);
+            transform: translateY(-3px);
+        }
+
+        .btn-outline {
+            padding: 18px 50px;
+            background: transparent;
+            color: var(--hologram-purple);
+            border: 1px solid var(--hologram-purple);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-outline:hover {
+            background: var(--hologram-purple);
+            color: white;
+            box-shadow: 0 0 30px var(--glow-purple);
+        }
+
+        /* 统计数据 */
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            max-width: 900px;
+            margin: 80px auto 0;
+            padding-top: 60px;
+            border-top: 1px solid var(--border-holo);
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(180deg, var(--hologram-cyan), var(--hologram-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .hero-stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* 核心技术 */
+        .tech {
+            padding: 120px 60px;
+            background: var(--bg-deep);
+            position: relative;
+        }
+
+        .section-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-label {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            color: var(--hologram-cyan);
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 5px;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .tech-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-holo);
+            padding: 50px 40px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s;
+        }
+
+        .tech-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--hologram-cyan), var(--hologram-purple), var(--hologram-blue));
+            transform: scaleX(0);
+            transition: transform 0.4s;
+        }
+
+        .tech-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .tech-card:hover {
+            background: var(--bg-card-hover);
+            transform: translateY(-10px);
+            box-shadow: 0 30px 80px rgba(0, 240, 255, 0.15);
+        }
+
+        .tech-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.1), rgba(128, 0, 255, 0.1));
+            border: 1px solid var(--hologram-cyan);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .tech-icon::after {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            border: 1px dashed var(--border-holo);
+            animation: iconRotate 20s linear infinite;
+        }
+
+        @keyframes iconRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .tech-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        .tech-card p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* 全息产品 */
+        .products {
+            padding: 120px 60px;
+            background: var(--bg-void);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+
+        .product-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-holo);
+            overflow: hidden;
+            transition: all 0.4s;
+            position: relative;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--glow-cyan), var(--glow-purple));
+            opacity: 0;
+            transition: opacity 0.4s;
+            z-index: 0;
+        }
+
+        .product-card:hover::before {
+            opacity: 0.1;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 80px rgba(0, 240, 255, 0.2);
+            border-color: var(--hologram-cyan);
+        }
+
+        .product-img {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+        }
+
+        .product-img::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 50%, var(--bg-card));
+        }
+
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: hue-rotate(180deg) saturate(0.5);
+            transition: all 0.5s;
+        }
+
+        .product-card:hover .product-img img {
+            filter: hue-rotate(0deg) saturate(1);
+            transform: scale(1.1);
+        }
+
+        .product-info {
+            padding: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .product-tag {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7rem;
+            color: var(--hologram-cyan);
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .product-info h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .product-info p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* 关于我们 */
+        .about {
+            padding: 120px 60px;
+            background: var(--bg-deep);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .about-visual {
+            position: relative;
+            height: 500px;
+        }
+
+        .about-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: hue-rotate(200deg) saturate(0.3);
+            border: 1px solid var(--border-holo);
+        }
+
+        .about-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(128, 0, 255, 0.2));
+            mix-blend-mode: overlay;
+        }
+
+        .about-border {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            right: -30px;
+            bottom: -30px;
+            border: 1px solid var(--hologram-purple);
+            z-index: -1;
+        }
+
+        .about-content h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            letter-spacing: 5px;
+        }
+
+        .about-content h2 span {
+            background: linear-gradient(90deg, var(--hologram-cyan), var(--hologram-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .about-content > p {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            line-height: 2;
+            margin-bottom: 20px;
+        }
+
+        .about-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .about-feature {
+            padding: 15px 20px;
+            background: var(--bg-card);
+            border-left: 3px solid var(--hologram-cyan);
+            font-size: 0.95rem;
+            color: var(--text-primary);
+        }
+
+        /* 数据统计 */
+        .stats {
+            padding: 100px 60px;
+            background: linear-gradient(135deg, var(--hologram-cyan), var(--hologram-purple));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(255, 255, 255, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 50%, rgba(0, 0, 0, 0.2) 0%, transparent 50%);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 50px;
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--bg-void);
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--bg-void);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        /* 合作伙伴 */
+        .partners {
+            padding: 100px 60px;
+            background: var(--bg-void);
+        }
+
+        .partners-scroll {
+            display: flex;
+            gap: 50px;
+            animation: scroll 30s linear infinite;
+            margin-top: 40px;
+        }
+
+        @keyframes scroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        .partner-item {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            padding: 20px 50px;
+            border: 1px solid var(--border-holo);
+            transition: all 0.3s;
+        }
+
+        .partner-item:hover {
+            color: var(--hologram-cyan);
+            border-color: var(--hologram-cyan);
+            text-shadow: 0 0 20px var(--glow-cyan);
+        }
+
+        /* 页脚 */
+        footer {
+            padding: 80px 60px 40px;
+            background: var(--bg-deep);
+            border-top: 1px solid var(--border-holo);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-brand h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, var(--hologram-cyan), var(--hologram-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-brand p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+
+        .footer-col h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            letter-spacing: 2px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .footer-col a:hover {
+            color: var(--hologram-cyan);
+        }
+
+        .footer-bottom {
+            padding-top: 30px;
+            border-top: 1px solid var(--border-holo);
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+        }
+
+        /* 响应式 */
+        @media (max-width: 1200px) {
+            .hero-title {
+                font-size: 3.5rem;
+            }
+            .hero-title .line2 {
+                font-size: 2rem;
+            }
+            .tech-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .hero-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            nav, .hero, .tech, .products, .about, .stats, .partners, footer {
+                padding-left: 30px;
+                padding-right: 30px;
+            }
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .nav-links, .nav-cta {
+                display: none;
+            }
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            .hero-title .line2 {
+                font-size: 1.5rem;
+                letter-spacing: 10px;
+            }
+            .hero-stats, .tech-grid, .products-grid, .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .about-features {
+                grid-template-columns: 1fr;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 粒子背景 -->
+    <div class="particles" id="particles"></div>
+
+    <nav>
+        <div class="logo">
+            <div class="logo-icon"><span>H</span></div>
+            <div class="logo-text">全息视界</div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#tech">核心技术</a></li>
+            <li><a href="#products">产品中心</a></li>
+            <li><a href="#about">关于我们</a></li>
+            <li><a href="#partners">合作伙伴</a></li>
+        </ul>
+        <button class="nav-cta">联系我们</button>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="holo-grid"></div>
+        <div class="holo-rings">
+            <div class="holo-ring holo-ring-1"></div>
+            <div class="holo-ring holo-ring-2"></div>
+            <div class="holo-ring holo-ring-3"></div>
+        </div>
+        
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span>✦</span>
+                XINJIANG HOLOGRAPHIC VISION
+                <span>✦</span>
+            </div>
+            
+            <h1 class="hero-title">
+                <span class="line1">新疆全息视界</span>
+                <span class="line2">软件科技有限公司</span>
+            </h1>
+            
+            <p class="hero-subtitle">
+                探索全息技术的无限可能，用创新视觉科技连接未来。<br>
+                全息视界 —— 让虚拟走进现实，让视界突破边界。
+            </p>
+            
+            <div class="hero-buttons">
+                <button class="btn-primary">探索全息</button>
+                <button class="btn-outline">了解更多</button>
+            </div>
+            
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="hero-stat-number">100+</div>
+                    <div class="hero-stat-label">全息项目</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number">50+</div>
+                    <div class="hero-stat-label">技术专利</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number">30+</div>
+                    <div class="hero-stat-label">合作企业</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number">10K+</div>
+                    <div class="hero-stat-label">服务用户</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="tech" id="tech">
+        <div class="section-container">
+            <div class="section-header">
+                <p class="section-label">CORE TECHNOLOGY</p>
+                <h2 class="section-title">核心技术领域</h2>
+            </div>
+            
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-icon">◈</div>
+                    <h3>全息技术研发</h3>
+                    <p>自主研发的全息成像系统，支持真三维立体显示，广泛应用于展览展示、医疗影像、工业设计等领域。</p>
+                </div>
+                
+                <div class="tech-card">
+                    <div class="tech-icon">◉</div>
+                    <h3>AR/VR开发</h3>
+                    <p>增强现实与虚拟现实应用开发，提供沉浸式交互体验解决方案，涵盖游戏、教育、培训等行业。</p>
+                </div>
+                
+                <div class="tech-card">
+                    <div class="tech-icon">◎</div>
+                    <h3>三维可视化</h3>
+                    <p>高精度三维建模与实时渲染技术，为智慧城市、建筑设计、工业仿真提供可视化支持。</p>
+                </div>
+                
+                <div class="tech-card">
+                    <div class="tech-icon">◇</div>
+                    <h3>人工智能视觉</h3>
+                    <p>计算机视觉与深度学习算法研发，实现图像识别、目标追踪、三维重建等智能分析功能。</p>
+                </div>
+                
+                <div class="tech-card">
+                    <div class="tech-icon">⬡</div>
+                    <h3>交互系统集成</h3>
+                    <p>多模态交互技术整合，支持手势识别、语音交互、眼动追踪等自然人机交互方式。</p>
+                </div>
+                
+                <div class="tech-card">
+                    <div class="tech-icon">⬢</div>
+                    <h3>云渲染服务</h3>
+                    <p>基于云计算的高性能渲染平台，提供按需扩展的实时渲染与离线渲染服务支持。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="products" id="products">
+        <div class="section-container">
+            <div class="section-header">
+                <p class="section-label">PRODUCT CENTER</p>
+                <h2 class="section-title">产品中心</h2>
+            </div>
+            
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=500" alt="全息投影">
+                    </div>
+                    <div class="product-info">
+                        <p class="product-tag">硬件产品</p>
+                        <h3>全息展示柜</h3>
+                        <p>270°/360°全息立体成像展示设备</p>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1592478411213-6153e4ebc07d?w=500" alt="AR眼镜">
+                    </div>
+                    <div class="product-info">
+                        <p class="product-tag">智能硬件</p>
+                        <h3>AR智能眼镜</h3>
+                        <p>轻量化增强现实眼镜设备</p>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=500" alt="VR体验">
+                    </div>
+                    <div class="product-info">
+                        <p class="product-tag">软件平台</p>
+                        <h3>VR虚拟展厅</h3>
+                        <p>沉浸式虚拟现实展览系统</p>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500" alt="三维可视化">
+                    </div>
+                    <div class="product-info">
+                        <p class="product-tag">解决方案</p>
+                        <h3>三维可视化平台</h3>
+                        <p>行业定制三维可视化系统</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <div class="section-container">
+            <div class="about-grid">
+                <div class="about-visual">
+                    <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800" alt="科技未来" class="about-img">
+                    <div class="about-overlay"></div>
+                    <div class="about-border"></div>
+                </div>
+                
+                <div class="about-content">
+                    <p class="section-label">ABOUT US</p>
+                    <h2>关于<span>全息视界</span></h2>
+                    <p>新疆全息视界软件科技有限公司是一家专注于全息技术、增强现实、虚拟现实等前沿视觉科技研发与应用的高新技术企业。</p>
+                    <p>公司坐落于丝绸之路经济带核心区——新疆乌鲁木齐，依托区域发展优势，致力于将最先进的视觉交互技术应用于教育、医疗、文旅、工业等领域，为客户创造沉浸式的数字化体验。</p>
+                    
+                    <div class="about-features">
+                        <div class="about-feature">全息技术自主研发</div>
+                        <div class="about-feature">AR/VR行业应用</div>
+                        <div class="about-feature">三维可视化定制</div>
+                        <div class="about-feature">AI视觉算法</div>
+                        <div class="about-feature">交互系统集成</div>
+                        <div class="about-feature">云渲染服务支持</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="section-container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">100+</div>
+                    <div class="stat-label">全息项目</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">技术专利</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">30+</div>
+                    <div class="stat-label">合作企业</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100+</div>
+                    <div class="stat-label">专业人才</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="partners" id="partners">
+        <div class="section-container">
+            <div class="section-header">
+                <p class="section-label">OUR PARTNERS</p>
+                <h2 class="section-title">合作伙伴</h2>
+            </div>
+            
+            <div style="overflow: hidden;">
+                <div class="partners-scroll">
+                    <div class="partner-item">华为技术有限公司</div>
+                    <div class="partner-item">腾讯AR/VR</div>
+                    <div class="partner-item">阿里巴巴达摩院</div>
+                    <div class="partner-item">字节跳动</div>
+                    <div class="partner-item">百度AI实验室</div>
+                    <div class="partner-item">商汤科技</div>
+                    <div class="partner-item">旷视科技</div>
+                    <div class="partner-item">科大讯飞</div>
+                    <div class="partner-item">华为技术有限公司</div>
+                    <div class="partner-item">腾讯AR/VR</div>
+                    <div class="partner-item">阿里巴巴达摩院</div>
+                    <div class="partner-item">字节跳动</div>
+                    <div class="partner-item">百度AI实验室</div>
+                    <div class="partner-item">商汤科技</div>
+                    <div class="partner-item">旷视科技</div>
+                    <div class="partner-item">科大讯飞</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="section-container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3>新疆全息视界软件科技有限公司</h3>
+                    <p>专注于全息技术、增强现实、虚拟现实等前沿视觉科技的研发与应用，用创新科技连接虚拟与现实。</p>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>核心技术</h4>
+                    <ul>
+                        <li><a href="#">全息技术研发</a></li>
+                        <li><a href="#">AR/VR开发</a></li>
+                        <li><a href="#">三维可视化</a></li>
+                        <li><a href="#">AI视觉算法</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>产品中心</h4>
+                    <ul>
+                        <li><a href="#">全息展示柜</a></li>
+                        <li><a href="#">AR智能眼镜</a></li>
+                        <li><a href="#">VR虚拟展厅</a></li>
+                        <li><a href="#">三维可视化平台</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>联系我们</h4>
+                    <ul>
+                        <li><a href="#">商务合作</a></li>
+                        <li><a href="#">人才招聘</a></li>
+                        <li><a href="#">技术支持</a></li>
+                        <li><a href="#">售后服务</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2026 新疆全息视界软件科技有限公司 版权所有</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 生成粒子
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+            particlesContainer.appendChild(particle);
+        }
+    </script>
+</body>
+</html>
